@@ -1,5 +1,6 @@
 const Product = require("../model/product.model");
 const CONTANTS = require("../app/contants");
+
 const rndId = () => {
   return Math.random().toString(36).slice(2, 15);
 };
@@ -56,14 +57,11 @@ exports.addproduct = (req, res) => {
   } else {
     const newProduct = new Product({
       product_id: rndId(),
-      name: req.body.name,
-      price: req.body.price,
-      image: req.body.image,
-      colors: req.body.colors,
-      company: req.body.company,
-      description: req.body.description,
-      category: req.body.category,
-      shipping: req.body.shipping,
+      products_name: req.body.products_name,
+      branh_id: req.body.branh_id,
+      category_id: req.body.category_id,
+      model_year: req.body.model_year,
+      list_price: req.body.list_price,
     });
     Product.create(newProduct, (err, data) => {
       if (err) {

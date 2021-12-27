@@ -5,5 +5,5 @@ module.exports = {
 
   PASSWORD: "",
 
-  DB: "furnitureshop",
+  DB: "noithatshop",
 };

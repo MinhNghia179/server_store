@@ -1,20 +1,16 @@
 const connectDB = require("../app/connectDB");
-const product = require("../routes/product/product");
 
 const Product = function (product) {
   this.product_id = product.product_id;
-  this.name = product.name;
-  this.price = product.price;
-  this.image = product.image;
-  this.colors = product.colors;
-  this.company = product.company;
-  this.description = product.description;
-  this.category = product.category;
-  this.shipping = product.shipping;
+  this.products_name = product.products_name;
+  this.branh_id = product.branh_id;
+  this.category_id = product.category_id;
+  this.model_year = product.model_year;
+  this.list_price = product.list_price;
 };
 
 Product.create = (newProduct, result) => {
-  connectDB.query("INSERT INTO product SET ?", newProduct, (err, res) => {
+  connectDB.query("INSERT INTO products SET ?", newProduct, (err, res) => {
     if (err) {
       result(err, null);
       return;
@@ -24,7 +20,7 @@ Product.create = (newProduct, result) => {
 };
 
 Product.findById = (productId, result) => {
-  const queryString = `SELECT * FROM product WHERE product_id = "${productId}"`;
+  const queryString = `SELECT * FROM products WHERE product_id = "${productId}"`;
   connectDB.query(queryString, (err, res) => {
     if (err) {
       result(err, null);
@@ -39,7 +35,7 @@ Product.findById = (productId, result) => {
 };
 
 Product.getAll = (result) => {
-  const queryString = `SELECT * FROM product`;
+  const queryString = `SELECT * FROM products`;
   connectDB.query(queryString, (err, res) => {
     if (err) {
       result(null, err);
@@ -50,7 +46,7 @@ Product.getAll = (result) => {
 };
 
 Product.delete = (productId, result) => {
-  const queryString = `DELETE FROM product WHERE product_id = "${productId}"`;
+  const queryString = `DELETE FROM products WHERE product_id = "${productId}"`;
   connectDB.query(queryString, (err, res) => {
     if (err) {
       result(err, null);
@@ -64,19 +60,16 @@ Product.delete = (productId, result) => {
 };
 
 Product.update = (productId, product, result) => {
-  const queryString = `UPDATE product SET name = ?, price = ?, image = ?, colors = ?, company = ?, description = ?, category = ?, shipping = ? 
+  const queryString = `UPDATE products SET products_name = ?, branh_id = ?, category_id = ?, model_year = ?, list_price = ?
   WHERE product_id = "${productId}"`;
   connectDB.query(
     queryString,
     [
-      product.name,
-      product.price,
-      product.image,
-      product.colors,
-      product.company,
-      product.description,
-      product.category,
-      product.shipping,
+      product.products_name,
+      product.branh_id,
+      product.category_id,
+      product.model_year,
+      product.list_price,
       productId,
     ],
     (err, res) => {
