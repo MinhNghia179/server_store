@@ -7,6 +7,7 @@ const Product = function (product) {
   this.category_id = product.category_id;
   this.model_year = product.model_year;
   this.list_price = product.list_price;
+  this.description = product.description;
 };
 
 Product.create = (newProduct, result) => {
@@ -60,16 +61,17 @@ Product.delete = (productId, result) => {
 };
 
 Product.update = (productId, product, result) => {
-  const queryString = `UPDATE products SET products_name = ?, branh_id = ?, category_id = ?, model_year = ?, list_price = ?
+  const queryString = `UPDATE products SET products_name = ?, category_id = ?, model_year = ?, list_price = ?, description = ?, color = ?
   WHERE product_id = "${productId}"`;
   connectDB.query(
     queryString,
     [
       product.products_name,
-      product.branh_id,
       product.category_id,
       product.model_year,
       product.list_price,
+      product.description,
+      product.color,
       productId,
     ],
     (err, res) => {

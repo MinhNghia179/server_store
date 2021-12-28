@@ -58,10 +58,11 @@ exports.addproduct = (req, res) => {
     const newProduct = new Product({
       product_id: rndId(),
       products_name: req.body.products_name,
-      branh_id: req.body.branh_id,
       category_id: req.body.category_id,
       model_year: req.body.model_year,
       list_price: req.body.list_price,
+      description: req.body.description,
+      color: req.body.color
     });
     Product.create(newProduct, (err, data) => {
       if (err) {
