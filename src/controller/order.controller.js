@@ -1,6 +1,11 @@
 const Order = require("../model/order.model");
+
 const rndId = () => {
-  return Math.random().toString(36).slice(2, 15);
+  let rndStr = "ord";
+  for (let i = 0; i <= 2; i++) {
+    rndStr += Math.random().toString(36).substr(2, 9);
+  }
+  return rndStr;
 };
 
 exports.getOrder = (req, res) => {
@@ -49,7 +54,7 @@ exports.addOrder = (req, res) => {
   } else {
     const newOrder = new Order({
       order_id: rndId(),
-      customer_id: req.body.customer_id,
+      customerId: req.body.customerId,
       order_status: req.body.order_status,
       order_date: req.body.order_date,
       required_date: req.body.required_date,

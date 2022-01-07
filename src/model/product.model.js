@@ -1,27 +1,30 @@
 const connectDB = require("../app/connectDB");
 
 const Product = function (product) {
-  this.product_id = product.product_id;
-  this.products_name = product.products_name;
-  this.branh_id = product.branh_id;
-  this.category_id = product.category_id;
-  this.model_year = product.model_year;
-  this.list_price = product.list_price;
+  this.productId = product.productId;
+  this.name = product.name;
+  this.categoryId = product.categoryId;
+  this.modelYear = product.modelYear;
+  this.price = product.price;
   this.description = product.description;
+  this.color = product.color;
+  this.evaluate = product.evaluate;
+  this.reviews = product.reviews;
+  this.image = product.image;
 };
 
 Product.create = (newProduct, result) => {
-  connectDB.query("INSERT INTO products SET ?", newProduct, (err, res) => {
+  connectDB.query("INSERT INTO product SET ?", newProduct, (err, res) => {
     if (err) {
       result(err, null);
       return;
     }
-    result(null, { product_id: res.product_id, ...newProduct });
+    result(null, { productId: res.productId, ...newProduct });
   });
 };
 
 Product.findById = (productId, result) => {
-  const queryString = `SELECT * FROM products WHERE product_id = "${productId}"`;
+  const queryString = `SELECT * FROM product WHERE product_id = "${productId}"`;
   connectDB.query(queryString, (err, res) => {
     if (err) {
       result(err, null);
@@ -36,7 +39,7 @@ Product.findById = (productId, result) => {
 };
 
 Product.getAll = (result) => {
-  const queryString = `SELECT * FROM products`;
+  const queryString = `SELECT * FROM product`;
   connectDB.query(queryString, (err, res) => {
     if (err) {
       result(null, err);
@@ -47,7 +50,7 @@ Product.getAll = (result) => {
 };
 
 Product.delete = (productId, result) => {
-  const queryString = `DELETE FROM products WHERE product_id = "${productId}"`;
+  const queryString = `DELETE FROM product WHERE productId = "${productId}"`;
   connectDB.query(queryString, (err, res) => {
     if (err) {
       result(err, null);
@@ -61,17 +64,20 @@ Product.delete = (productId, result) => {
 };
 
 Product.update = (productId, product, result) => {
-  const queryString = `UPDATE products SET products_name = ?, category_id = ?, model_year = ?, list_price = ?, description = ?, color = ?
-  WHERE product_id = "${productId}"`;
+  const queryString = `UPDATE product SET name = ?, categoryId = ?, modelYear = ?, price = ?, description = ?, color = ?, evaluate = ?, reviews = ?, image = ?
+  WHERE productId = "${productId}"`;
   connectDB.query(
     queryString,
     [
-      product.products_name,
-      product.category_id,
-      product.model_year,
-      product.list_price,
+      product.name,
+      product.categoryId,
+      product.modelYear,
+      product.price,
       product.description,
       product.color,
+      product.evaluate,
+      product.reviews,
+      product.image,
       productId,
     ],
     (err, res) => {
@@ -83,7 +89,7 @@ Product.update = (productId, product, result) => {
         result({ msg: "Not Found" }, null);
         return;
       }
-      result(null, { product_id: productId, ...product });
+      result(null, { productId: productId, ...product });
     }
   );
 };

@@ -2,7 +2,11 @@ const Product = require("../model/product.model");
 const CONTANTS = require("../app/contants");
 
 const rndId = () => {
-  return Math.random().toString(36).slice(2, 15);
+  let rndStr = "prod";
+  for (let i = 0; i <= 2; i++) {
+    rndStr += Math.random().toString(36).substr(2, 9);
+  }
+  return rndStr;
 };
 
 exports.getProduct = (req, res) => {
@@ -56,13 +60,16 @@ exports.addproduct = (req, res) => {
       .send({ message: "Body data can not empty" });
   } else {
     const newProduct = new Product({
-      product_id: rndId(),
-      products_name: req.body.products_name,
-      category_id: req.body.category_id,
-      model_year: req.body.model_year,
-      list_price: req.body.list_price,
+      productId: rndId(),
+      name: req.body.name,
+      categoryId: req.body.categoryId,
+      modelYear: req.body.modelYear,
+      price: req.body.price,
       description: req.body.description,
-      color: req.body.color
+      color: req.body.color,
+      evaluate: req.body.evaluate,
+      reviews: req.body.reviews,
+      image: req.body.image,
     });
     Product.create(newProduct, (err, data) => {
       if (err) {

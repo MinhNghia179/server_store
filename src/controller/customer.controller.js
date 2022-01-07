@@ -1,6 +1,11 @@
 const Customer = require("../model/customer.model");
+
 const rndId = () => {
-  return Math.random().toString(36).slice(2, 15);
+  let rndStr = "custm";
+  for (let i = 0; i <= 2; i++) {
+    rndStr += Math.random().toString(36).substr(2, 9);
+  }
+  return rndStr;
 };
 
 exports.getCustomer = (req, res) => {
@@ -48,15 +53,13 @@ exports.addCustomer = (req, res) => {
     res.status(400).send({ message: "Body data can not empty" });
   } else {
     const newCustomer = new Customer({
-      customer_id: rndId(),
-      first_name: req.body.first_name,
-      last_name: req.body.last_name,
+      customerId: rndId(),
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
       phone: req.body.phone,
+      address: req.body.address,
       email: req.body.email,
-      street: req.body.street,
-      city: req.body.city,
-      state: req.body.state,
-      zip_code: req.body.zip_code,
+      password: req.body.password
     });
     Customer.create(newCustomer, (err, data) => {
       if (err) {

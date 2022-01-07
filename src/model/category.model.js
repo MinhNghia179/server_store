@@ -1,12 +1,13 @@
 const connectDB = require("../app/connectDB");
 
 const Category = function (category) {
-  this.category_id = category.category_id;
-  this.category_name = category.category_name;
+  this.categoryId = category.categoryId;
+  this.name = category.name;
+  this.description = category.description;
 };
 
 Category.getAll = (result) => {
-  const queryString = `SELECT * FROM categories`;
+  const queryString = `SELECT * FROM category`;
   connectDB.query(queryString, (err, res) => {
     if (err) {
       result(err, null);
@@ -20,7 +21,7 @@ Category.getAll = (result) => {
 };
 
 Category.findById = (categoryId) => {
-  const queryString = `SELECT * FROM categories WHERE category_id = "${categoryId}"`;
+  const queryString = `SELECT * FROM category WHERE categoryId = "${categoryId}"`;
   connectDB.query(queryString, (err, res) => {
     if (err) {
       result(err, null);
@@ -34,5 +35,14 @@ Category.findById = (categoryId) => {
   });
 };
 
+Category.create = (newCategory, result) => {
+  connectDB.query("INSERT INTO category SET ?", newCategory, (err, res) => {
+    if (err) {
+      result(err, null);
+      return;
+    }
+    result(null, { categoryId: res.categoryId, ...newCategory });
+  });
+};
 
 module.exports = Category;

@@ -2,7 +2,7 @@ const connectDB = require("../app/connectDB");
 
 const Order = function (order) {
   this.order_id = order.order_id;
-  this.customer_id = order.customer_id;
+  this.customerId = order.customerId;
   this.order_status = order.order_status;
   this.order_date = order.order_date;
   this.required_date = order.required_date;
@@ -59,11 +59,11 @@ Order.delete = (orderId, result) => {
 };
 
 Order.update = (orderId, order, result) => {
-  const queryString = `UPDATE orders SET customer_id = ?, order_status = ?, order_date = ?, required_date = ?, shipped_date = ?, store_id = ?, staff_id = ? WHERE customer_id = "${customerId}"`;
+  const queryString = `UPDATE orders SET customerId = ?, order_status = ?, order_date = ?, required_date = ?, shipped_date = ?, store_id = ?, staff_id = ? WHERE customerId = "${customerId}"`;
   connectDB.query(
     queryString,
     [
-      order.customer_id,
+      order.customerId,
       order.order_status,
       order.order_date,
       order.required_date,
