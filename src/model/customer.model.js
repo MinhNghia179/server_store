@@ -58,7 +58,7 @@ Customer.delete = (customerId, result) => {
 };
 
 Customer.update = (customerId, customer, result) => {
-  const queryString = `UPDATE customer SET firstName = ?, lastName = ?, phone = ?, email = ?, street = ?, city = ?, state = ?, zip_code = ? WHERE customerId = "${customerId}"`;
+  const queryString = `UPDATE customer SET firstName = ?, lastName = ?, phone = ?, address = ?, email = ?, password = ? WHERE customerId = "${customerId}"`;
   connectDB.query(
     queryString,
     [
