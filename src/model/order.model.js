@@ -12,7 +12,7 @@ const Order = function (order) {
 };
 
 Order.create = (newOrder, result) => {
-  connectDB.query("INSERT INTO orders SET ?", newOrder, (err, res) => {
+  connectDB.query("INSERT INTO order SET ?", newOrder, (err, res) => {
     if (err) {
       result(err, null);
       return;
@@ -22,7 +22,7 @@ Order.create = (newOrder, result) => {
 };
 
 Order.findById = (orderId, result) => {
-  const queryString = `SELECT * FROM orders WHERE order_id = "${orderId}"`;
+  const queryString = `SELECT * FROM order WHERE order_id = "${orderId}"`;
   connectDB.query(queryString, (err, res) => {
     if (err) {
       result(err, null);
@@ -37,7 +37,7 @@ Order.findById = (orderId, result) => {
 };
 
 Order.getAll = (result) => {
-  const queryString = `SELECT * FROM orders`;
+  const queryString = `SELECT * FROM order`;
   connectDB.query(queryString, (err, res) => {
     if (err) {
       result(err, null);
@@ -48,7 +48,7 @@ Order.getAll = (result) => {
 };
 
 Order.delete = (orderId, result) => {
-  const queryString = `DELETE FROM orders WHERE order_id = "${orderId}"`;
+  const queryString = `DELETE FROM order WHERE order_id = "${orderId}"`;
   connectDB.query(queryString, (err, res) => {
     if (err) {
       result(err, null);
@@ -59,7 +59,7 @@ Order.delete = (orderId, result) => {
 };
 
 Order.update = (orderId, order, result) => {
-  const queryString = `UPDATE orders SET customerId = ?, order_status = ?, order_date = ?, required_date = ?, shipped_date = ?, store_id = ?, staff_id = ? WHERE customerId = "${customerId}"`;
+  const queryString = `UPDATE order SET customerId = ?, order_status = ?, order_date = ?, required_date = ?, shipped_date = ?, store_id = ?, staff_id = ? WHERE orderId = "${orderId}"`;
   connectDB.query(
     queryString,
     [

@@ -39,7 +39,10 @@ Product.findById = (productId, result) => {
 };
 
 Product.getAll = (result) => {
-  const queryString = `SELECT * FROM product`;
+  const queryString = `SELECT pr.*,cate.nameCa,cate.descriptionCa
+  FROM product as pr
+  INNER JOIN category as cate 
+  ON pr.categoryId = cate.categoryId`;
   connectDB.query(queryString, (err, res) => {
     if (err) {
       result(null, err);
