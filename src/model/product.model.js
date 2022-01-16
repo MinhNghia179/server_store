@@ -24,7 +24,10 @@ Product.create = (newProduct, result) => {
 };
 
 Product.findById = (productId, result) => {
-  const queryString = `SELECT * FROM product WHERE product_id = "${productId}"`;
+  const queryString = `SELECT pr.*,cate.nameCa,cate.descriptionCa
+  FROM product as pr
+  INNER JOIN category as cate 
+  ON pr.categoryId = cate.categoryId WHERE productId = "${productId}"`;
   connectDB.query(queryString, (err, res) => {
     if (err) {
       result(err, null);
