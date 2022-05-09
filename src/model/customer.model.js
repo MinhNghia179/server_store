@@ -1,4 +1,4 @@
-const connectDB = require("../app/connectDB");
+const connectDB = require('../app/connectDB');
 
 const Customer = function (customer) {
   this.customerId = customer.customerId;
@@ -11,7 +11,7 @@ const Customer = function (customer) {
 };
 
 Customer.create = (newCustomer, result) => {
-  connectDB.query("INSERT INTO customer SET ?", newCustomer, (err, res) => {
+  connectDB.query('INSERT INTO customer SET ?', newCustomer, (err, res) => {
     if (err) {
       result(err, null);
       return;
@@ -31,7 +31,7 @@ Customer.findById = (customerId, result) => {
       result(null, res[0]);
       return;
     }
-    result({ msg: "Not Found" }, null);
+    result({ msg: 'Not Found' }, null);
   });
 };
 
@@ -68,7 +68,7 @@ Customer.update = (customerId, customer, result) => {
       customer.address,
       customer.email,
       customer.password,
-      customerId
+      customerId,
     ],
     (err, res) => {
       if (err) {

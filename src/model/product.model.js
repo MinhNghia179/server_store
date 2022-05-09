@@ -1,8 +1,8 @@
 const connectDB = require('../app/connectDB');
 
 const Product = function (product) {
-  this.id = product.id; //
-  this.name = product.name; //
+  this.id = product.id;
+  this.name = product.name;
   this.price = product.price;
   this.size = product.size;
   this.status = product.status;
@@ -10,9 +10,12 @@ const Product = function (product) {
   this.main_stone = product.main_stone;
   this.main_color_stone = product.main_color_stone;
   this.shape = product.shape;
-  this.sex = product.sex;
+  this.gender = product.gender;
   this.weight = product.weight;
   this.description = product.description;
+  this.images = product.images;
+  this.reviews = product.reviews;
+  this.stars = product.stars;
 };
 
 Product.create = (newProduct, result) => {
@@ -79,7 +82,7 @@ Product.delete = (id, result) => {
 };
 
 Product.update = (id, product, result) => {
-  const queryString = `UPDATE product SET name = ?, price = ?, size = ?, status = ?,trademark = ?, main_stone = ?, main_color_stone = ?, shape = ?, sex = ?, weight = ?, description = ?
+  const queryString = `UPDATE product SET name = ?, price = ?, size = ?, status = ?,trademark = ?, main_stone = ?, main_color_stone = ?, shape = ?, gender = ?, weight = ?, description = ?, images = ?, reviews = ?, stars = ?
   WHERE id = "${id}"`;
 
   connectDB.query(
@@ -93,9 +96,12 @@ Product.update = (id, product, result) => {
       product.main_stone,
       product.main_color_stone,
       product.shape,
-      product.sex,
+      product.gender,
       product.weight,
       product.description,
+      product.images,
+      product.reviews,
+      product.stars,
       id,
     ],
     (err, res) => {

@@ -1,4 +1,4 @@
-const connectDB = require("../app/connectDB");
+const connectDB = require('../app/connectDB');
 
 const Order = function (order) {
   this.orderId = order.orderId;
@@ -11,7 +11,7 @@ const Order = function (order) {
 };
 
 Order.create = (newOrder, result) => {
-  connectDB.query("INSERT INTO order SET ?", newOrder, (err, res) => {
+  connectDB.query('INSERT INTO order SET ?', newOrder, (err, res) => {
     if (err) {
       result(err, null);
       return;
@@ -28,11 +28,10 @@ Order.findById = (orderId, result) => {
       return;
     }
     if (res.length) {
-      ;
       result(null, res[0]);
       return;
     }
-    result({ msg: "Not Found" }, null);
+    result({ msg: 'Not Found' }, null);
   });
 };
 

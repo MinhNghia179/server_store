@@ -1,4 +1,4 @@
-const connectDB = require("../app/connectDB");
+const connectDB = require('../app/connectDB');
 
 const Category = function (category) {
   this.categoryId = category.categoryId;
@@ -14,7 +14,7 @@ Category.getAll = (result) => {
       return;
     }
     if (res.length == 0) {
-      result({ msg: "Not Found" }, null);
+      result({ msg: 'Not Found' }, null);
     }
     result(null, res);
   });
@@ -31,12 +31,12 @@ Category.findById = (categoryId) => {
       result(null, res[0]);
       return;
     }
-    result({ msg: "Not Found" }, null);
+    result({ msg: 'Not Found' }, null);
   });
 };
 
 Category.create = (newCategory, result) => {
-  connectDB.query("INSERT INTO category SET ?", newCategory, (err, res) => {
+  connectDB.query('INSERT INTO category SET ?', newCategory, (err, res) => {
     if (err) {
       result(err, null);
       return;

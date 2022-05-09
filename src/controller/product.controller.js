@@ -1,5 +1,11 @@
 const Product = require('../model/product.model');
-const CONTANTS = require('../app/contants');
+const CONSTANTS = require('../app/CONSTANTS');
+
+const convertStrToArray = (value) => {
+  const arrStr = (value && value.toString().split(',')) || [];
+
+  return arrStr.map((item) => parseInt(item));
+};
 
 const rndId = () => {
   let rndStr = 'prod';
@@ -12,11 +18,16 @@ const rndId = () => {
 exports.getProduct = (req, res) => {
   Product.getAll((err, data) => {
     if (err) {
-      res.status(CONTANTS.STATUS_CODE.SERVER_ERROR).send({
+      res.status(CONSTANTS.STATUS_CODE.SERVER_ERROR).send({
         message: err.message || 'Some error occurred while retrieving...',
       });
     } else {
-      res.status(CONTANTS.STATUS_CODE.SUCCESS).send(data);
+      data.forEach((item) => {
+        item.size = convertStrToArray(item.size);
+        item.images = (item.images && item.images.split(',')) || [];
+      });
+
+      res.status(CONSTANTS.STATUS_CODE.SUCCESS).send(data);
     }
   });
 };
@@ -24,11 +35,11 @@ exports.getProduct = (req, res) => {
 exports.getProductById = (req, res) => {
   Product.findById(req.params.id, (err, data) => {
     if (err) {
-      res.status(CONTANTS.STATUS_CODE.SERVER_ERROR).send({
+      res.status(CONSTANTS.STATUS_CODE.SERVER_ERROR).send({
         message: err.message || 'Some error occurred while retrieving...',
       });
     } else {
-      res.status(CONTANTS.STATUS_CODE.SUCCESS).send(data);
+      res.status(CONSTANTS.STATUS_CODE.SUCCESS).send(data);
     }
   });
 };
@@ -36,18 +47,18 @@ exports.getProductById = (req, res) => {
 exports.deleteProduct = (req, res) => {
   Product.delete(req.params.id, (err, data) => {
     if (err) {
-      if (err.msg == CONTANTS.MESSAGE_ERROR.NOT_FOUND) {
+      if (err.msg == CONSTANTS.MESSAGE_ERROR.NOT_FOUND) {
         res
-          .status(CONTANTS.STATUS_CODE.FAIL)
-          .send({ message: CONTANTS.MESSAGE_ERROR.NOT_FOUND });
+          .status(CONSTANTS.STATUS_CODE.FAIL)
+          .send({ message: CONSTANTS.MESSAGE_ERROR.NOT_FOUND });
       } else {
-        res.status(CONTANTS.STATUS_CODE.SERVER_ERROR).send({
+        res.status(CONSTANTS.STATUS_CODE.SERVER_ERROR).send({
           message: 'Could not delete product',
         });
       }
     } else {
       res
-        .status(CONTANTS.STATUS_CODE.SUCCESS)
+        .status(CONSTANTS.STATUS_CODE.SUCCESS)
         .send({ message: 'Product was deleted successfully!' });
     }
   });
@@ -56,7 +67,7 @@ exports.deleteProduct = (req, res) => {
 exports.addproduct = (req, res) => {
   if (!req.body) {
     res
-      .status(CONTANTS.STATUS_CODE.FAIL)
+      .status(CONSTANTS.STATUS_CODE.FAIL)
       .send({ message: 'Body data can not empty' });
   } else {
     const newProduct = new Product({
@@ -69,18 +80,21 @@ exports.addproduct = (req, res) => {
       main_stone: req.body.main_stone,
       main_color_stone: req.body.main_color_stone,
       shape: req.body.shape,
-      sex: req.body.sex,
+      gender: req.body.gender,
       weight: req.body.weight,
       description: req.body.description,
+      images: req.body.images,
+      reviews: req.body.reviews,
+      stars: req.body.stars,
     });
     Product.create(newProduct, (err, data) => {
       if (err) {
-        res.status(CONTANTS.STATUS_CODE.SERVER_ERROR).send({
+        res.status(CONSTANTS.STATUS_CODE.SERVER_ERROR).send({
           message: err.message || 'Some error occurred while creating',
         });
       } else {
         res
-          .status(CONTANTS.STATUS_CODE.SUCCESS)
+          .status(CONSTANTS.STATUS_CODE.SUCCESS)
           .send({ message: 'Product was added successfully!' });
       }
     });
@@ -90,18 +104,18 @@ exports.addproduct = (req, res) => {
 exports.updateProduct = (req, res) => {
   if (!req.body) {
     res
-      .status(CONTANTS.STATUS_CODE.FAIL)
+      .status(CONSTANTS.STATUS_CODE.FAIL)
       .send({ message: 'Body data can not empty' });
   } else {
     const id = req.params.id;
     Product.update(id, req.body, (err, data) => {
       if (err) {
-        res.status(CONTANTS.STATUS_CODE.SERVER_ERROR).send({
+        res.status(CONSTANTS.STATUS_CODE.SERVER_ERROR).send({
           message: err.message || 'Some error occurred while updating',
         });
       } else {
         res
-          .status(CONTANTS.STATUS_CODE.SUCCESS)
+          .status(CONSTANTS.STATUS_CODE.SUCCESS)
           .send({ message: 'Product was updated successfully!' });
       }
     });
